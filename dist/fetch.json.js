@@ -49,6 +49,9 @@ fetch.post = function (path, data) {
 fetch.put = function (path, data) {
   return fetch(path, 'put', data);
 };
+fetch.patch = function (path, data) {
+  return fetch(path, 'patch', data);
+};
 fetch.delete = function (path) {
   return fetch(path, 'delete');
 };
