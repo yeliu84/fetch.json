@@ -1,4 +1,5 @@
-const _fetch = window.fetch
+import _fetch from 'isomorphic-fetch'
+
 const defaultHeaders = {
   'content-type': 'application/json',
   'accept': 'application/json'

@@ -2,11 +2,21 @@
   "name": "fetch.json",
   "version": "0.0.1",
   "description": "Fetching JSON with ease",
-  "main": "index.js",
+  "main": "dist/fetch.json.js",
+  "scripts": {
+    "build": "rm -rf dist && mkdir dist && babel index.js -o dist/fetch.json.js"
+  },
   "keywords": [
     "fetch",
     "json"
   ],
   "author": "Ye Liu",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-preset-es2015": "*"
+  }
 }
