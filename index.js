@@ -34,6 +34,7 @@ function fetch (url, method = 'get', data = null) {
 fetch.get = fetch
 fetch.post = (path, data) => fetch(path, 'post', data)
 fetch.put = (path, data) => fetch(path, 'put', data)
+fetch.patch = (path, data) => fetch(path, 'patch', data)
 fetch.delete = (path) => fetch(path, 'delete')
 
 fetch.headers = _headers => {
