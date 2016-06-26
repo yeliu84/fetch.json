@@ -2,16 +2,20 @@
   "name": "fetch.json",
   "version": "0.0.2",
   "description": "Fetching JSON with ease",
-  "main": "dist/fetch.json.js",
-  "scripts": {
-    "build": "rm -rf dist && mkdir dist && babel index.js -o dist/fetch.json.js"
+  "author": "Ye Liu",
+  "license": "MIT",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/jaux/fetch.json"
   },
   "keywords": [
     "fetch",
     "json"
   ],
-  "author": "Ye Liu",
-  "license": "MIT",
+  "main": "dist/fetch.json.js",
+  "scripts": {
+    "build": "rm -rf dist && mkdir dist && babel index.js -o dist/fetch.json.js"
+  },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1"
   },
