@@ -4,6 +4,7 @@ const defaultHeaders = {
   'content-type': 'application/json',
   'accept': 'application/json'
 }
+let headers = defaultHeaders
 
 function fetch (url, options = {
   method: 'get',
@@ -11,7 +12,7 @@ function fetch (url, options = {
   body: null
 }) {
   options.method = (options.method || 'get').toLowerCase()
-  options.headers = Object.assign({}, defaultHeaders, options.headers)
+  options.headers = Object.assign({}, headers, options.headers)
   if (options.method === 'get' || options.method === 'head') {
     delete options.body
   } else if (options.body) {
@@ -46,5 +47,12 @@ function fetch (url, options = {
     return fetch(url, options)
   }
 })
+
+fetch.headers = _headers => {
+  if (!_headers) {
+    return headers
+  }
+  headers = Object.assign({}, defaultHeaders, _headers)
+}
 
 export default fetch
