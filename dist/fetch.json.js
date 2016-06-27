@@ -14,19 +14,20 @@ var defaultHeaders = {
   'content-type': 'application/json',
   'accept': 'application/json'
 };
-var headers = defaultHeaders;
 
 function fetch(url) {
-  var method = arguments.length <= 1 || arguments[1] === undefined ? 'get' : arguments[1];
-  var data = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+  var options = arguments.length <= 1 || arguments[1] === undefined ? {
+    method: 'get',
+    headers: null,
+    body: null
+  } : arguments[1];
 
-  method = method.toLowerCase();
-  var options = {
-    method: method,
-    headers: headers
-  };
-  if (method !== 'get' && method !== 'head' && data) {
-    options.body = JSON.stringify(data);
+  options.method = (options.method || 'get').toLowerCase();
+  options.headers = Object.assign({}, defaultHeaders, options.headers);
+  if (options.method === 'get' || options.method === 'head') {
+    delete options.body;
+  } else if (options.body) {
+    options.body = JSON.stringify(options.body);
   }
   return (0, _isomorphicFetch2.default)(url, options).then(function (response) {
     return response.json().then(function (data) {
@@ -42,26 +43,10 @@ function fetch(url) {
   });
 }
 
-fetch.get = fetch;
-fetch.post = function (path, data) {
-  return fetch(path, 'post', data);
-};
-fetch.put = function (path, data) {
-  return fetch(path, 'put', data);
-};
-fetch.patch = function (path, data) {
-  return fetch(path, 'patch', data);
-};
-fetch.delete = function (path) {
-  return fetch(path, 'delete');
-};
-
-fetch.headers = function (_headers) {
-  if (!_headers) {
-    return headers;
-  }
-  headers = Object.assign({}, defaultHeaders, _headers);
-  return fetch;
-};
+['get', 'post', 'put', 'patch', 'delete'].forEach(function (method) {
+  fetch[method] = function (url, body) {
+    return fetch(url, { method: method, body: body });
+  };
+});
 
 exports.default = fetch;
