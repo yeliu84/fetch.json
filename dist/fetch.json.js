@@ -43,9 +43,19 @@ function fetch(url) {
   });
 }
 
-['get', 'post', 'put', 'patch', 'delete'].forEach(function (method) {
+['get', 'post', 'put', 'patch', 'delete', 'head'].forEach(function (method) {
   fetch[method] = function (url, body) {
-    return fetch(url, { method: method, body: body });
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+    options.method = method;
+    if (body) {
+      if (method === 'get' || method === 'head') {
+        options = body;
+      } else {
+        options.body = body;
+      }
+    }
+    return fetch(url, options);
   };
 });
 
