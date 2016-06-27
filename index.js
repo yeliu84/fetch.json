@@ -33,8 +33,18 @@ function fetch (url, options = {
     })
 }
 
-['get', 'post', 'put', 'patch', 'delete'].forEach(method => {
-  fetch[method] = (url, body) => fetch(url, { method, body })
+['get', 'post', 'put', 'patch', 'delete', 'head'].forEach(method => {
+  fetch[method] = (url, body, options = {}) => {
+    options.method = method
+    if (body) {
+      if (method === 'get' || method === 'head') {
+        options = body
+      } else {
+        options.body = body
+      }
+    }
+    return fetch(url, options)
+  }
 })
 
 export default fetch
