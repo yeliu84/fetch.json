@@ -52,7 +52,15 @@ fetch.headers = _headers => {
   if (!_headers) {
     return headers
   }
-  headers = Object.assign({}, defaultHeaders, _headers)
+  const newHeaders = {}
+  Object.keys(_headers).forEach(key => {
+    const val = _headers[key]
+    if (val) {
+      newHeaders[key.toLowerCase()] = val
+    }
+  })
+  headers = Object.assign({}, defaultHeaders, newHeaders)
+  return fetch
 }
 
 export default fetch
