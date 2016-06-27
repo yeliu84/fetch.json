@@ -14,6 +14,7 @@ var defaultHeaders = {
   'content-type': 'application/json',
   'accept': 'application/json'
 };
+var headers = defaultHeaders;
 
 function fetch(url) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {
@@ -23,7 +24,7 @@ function fetch(url) {
   } : arguments[1];
 
   options.method = (options.method || 'get').toLowerCase();
-  options.headers = Object.assign({}, defaultHeaders, options.headers);
+  options.headers = Object.assign({}, headers, options.headers);
   if (options.method === 'get' || options.method === 'head') {
     delete options.body;
   } else if (options.body) {
@@ -58,5 +59,20 @@ function fetch(url) {
     return fetch(url, options);
   };
 });
+
+fetch.headers = function (_headers) {
+  if (!_headers) {
+    return headers;
+  }
+  var newHeaders = {};
+  Object.keys(_headers).forEach(function (key) {
+    var val = _headers[key];
+    if (val) {
+      newHeaders[key.toLowerCase()] = val;
+    }
+  });
+  headers = Object.assign({}, defaultHeaders, newHeaders);
+  return fetch;
+};
 
 exports.default = fetch;
