@@ -4,16 +4,18 @@ const defaultHeaders = {
   'content-type': 'application/json',
   'accept': 'application/json'
 }
-let headers = defaultHeaders
 
-function fetch (url, method = 'get', data = null) {
-  method = method.toLowerCase()
-  const options = {
-    method,
-    headers
-  }
-  if (method !== 'get' && method !== 'head' && data) {
-    options.body = JSON.stringify(data)
+function fetch (url, options = {
+  method: 'get',
+  headers: null,
+  body: null
+}) {
+  options.method = (options.method || 'get').toLowerCase()
+  options.headers = Object.assign({}, defaultHeaders, options.headers)
+  if (options.method === 'get' || options.method === 'head') {
+    delete options.body
+  } else if (options.body) {
+    options.body = JSON.stringify(options.body)
   }
   return _fetch(url, options)
     .then(response => {
@@ -31,18 +33,8 @@ function fetch (url, method = 'get', data = null) {
     })
 }
 
-fetch.get = fetch
-fetch.post = (path, data) => fetch(path, 'post', data)
-fetch.put = (path, data) => fetch(path, 'put', data)
-fetch.patch = (path, data) => fetch(path, 'patch', data)
-fetch.delete = (path) => fetch(path, 'delete')
-
-fetch.headers = _headers => {
-  if (!_headers) {
-    return headers
-  }
-  headers = Object.assign({}, defaultHeaders, _headers)
-  return fetch
-}
+['get', 'post', 'put', 'patch', 'delete'].forEach(method => {
+  fetch[method] = (url, body) => fetch(url, { method, body })
+})
 
 export default fetch
