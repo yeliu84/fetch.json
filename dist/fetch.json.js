@@ -18,14 +18,14 @@ var headers = defaultHeaders;
 
 function fetch(url) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {
-    method: 'get',
+    method: 'GET',
     headers: null,
     body: null
   } : arguments[1];
 
-  options.method = (options.method || 'get').toLowerCase();
+  options.method = (options.method || 'GET').toUpperCase();
   options.headers = Object.assign({}, headers, options.headers);
-  if (options.method === 'get' || options.method === 'head') {
+  if (options.method === 'GET' || options.method === 'HEAD') {
     delete options.body;
   } else if (options.body) {
     options.body = JSON.stringify(options.body);
