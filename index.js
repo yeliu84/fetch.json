@@ -30,6 +30,11 @@ function fetch (url, options = {
             statusText: response.statusText,
             response: data
           })
+        }, error => {
+          if (response.ok) {
+            return {}
+          }
+          throw error
         })
     })
 }
