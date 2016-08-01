@@ -40,6 +40,11 @@ function fetch(url) {
         statusText: response.statusText,
         response: data
       });
+    }, function (error) {
+      if (response.ok) {
+        return {};
+      }
+      throw error;
     });
   });
 }
