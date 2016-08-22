@@ -44,7 +44,11 @@ function fetch(url) {
       if (response.ok) {
         return {};
       }
-      throw error;
+      return Promise.reject({
+        status: response.status,
+        statusText: response.statusText,
+        error: error
+      });
     });
   });
 }
