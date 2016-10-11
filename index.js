@@ -61,8 +61,8 @@ fetch.headers = _headers => {
   if (!_headers) {
     return headers
   }
-  const newHeaders = _headers.map(({ key, val }) => ({
-    [key.toLowerCase()]: val
+  const newHeaders = Object.keys(_headers).map(key => ({
+    [key.toLowerCase()]: _headers[key]
   }))
   headers = Object.assign({}, defaultHeaders, newHeaders)
   return fetch
