@@ -10,8 +10,6 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var defaultHeaders = {
   'content-type': 'application/json',
   'accept': 'application/json'
@@ -26,16 +24,18 @@ function fetch(url) {
   } : arguments[1];
 
   options.method = (options.method || 'GET').toUpperCase();
-  options.headers = Object.assign({}, headers, options.headers).filter(function (_ref) {
-    var key = _ref.key;
-    var val = _ref.val;
-    return val;
-  });
   if (options.method === 'GET' || options.method === 'HEAD') {
     delete options.body;
   } else if (options.body) {
     options.body = JSON.stringify(options.body);
   }
+  var _headers = Object.assign({}, headers, options.headers);
+  options.headers = {};
+  Object.keys(_headers).filter(function (key) {
+    return _headers[key];
+  }).forEach(function (key) {
+    options.headers[key] = _headers[key];
+  });
   return (0, _isomorphicFetch2.default)(url, options).then(function (response) {
     return response.json().then(function (data) {
       if (response.ok) {
@@ -79,8 +79,9 @@ fetch.headers = function (_headers) {
   if (!_headers) {
     return headers;
   }
-  var newHeaders = Object.keys(_headers).map(function (key) {
-    return _defineProperty({}, key.toLowerCase(), _headers[key]);
+  var newHeaders = {};
+  Object.keys(_headers).forEach(function (key) {
+    newHeaders[key.toLowerCase()] = _headers[key];
   });
   headers = Object.assign({}, defaultHeaders, newHeaders);
   return fetch;
