@@ -12,12 +12,16 @@ function fetch (url, options = {
   body: null
 }) {
   options.method = (options.method || 'GET').toUpperCase()
-  options.headers = Object.assign({}, headers, options.headers).filter(({ key, val }) => val)
   if (options.method === 'GET' || options.method === 'HEAD') {
     delete options.body
   } else if (options.body) {
     options.body = JSON.stringify(options.body)
   }
+  const _headers = Object.assign({}, headers, options.headers)
+  options.headers = {}
+  Object.keys(_headers).filter(key => _headers[key]).forEach(key => {
+    options.headers[key] = _headers[key]
+  })
   return _fetch(url, options)
     .then(response => {
       return response.json()
@@ -61,9 +65,10 @@ fetch.headers = _headers => {
   if (!_headers) {
     return headers
   }
-  const newHeaders = Object.keys(_headers).map(key => ({
-    [key.toLowerCase()]: _headers[key]
-  }))
+  const newHeaders = {}
+  Object.keys(_headers).forEach(key => {
+    newHeaders[key.toLowerCase()] = _headers[key]
+  })
   headers = Object.assign({}, defaultHeaders, newHeaders)
   return fetch
 }
