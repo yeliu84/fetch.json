@@ -12,7 +12,7 @@ function fetch (url, options = {
   body: null
 }) {
   options.method = (options.method || 'GET').toUpperCase()
-  options.headers = Object.assign({}, headers, options.headers)
+  options.headers = Object.assign({}, headers, options.headers).filter(({ key, val }) => val)
   if (options.method === 'GET' || options.method === 'HEAD') {
     delete options.body
   } else if (options.body) {
@@ -61,14 +61,15 @@ fetch.headers = _headers => {
   if (!_headers) {
     return headers
   }
-  const newHeaders = {}
-  Object.keys(_headers).forEach(key => {
-    const val = _headers[key]
-    if (val) {
-      newHeaders[key.toLowerCase()] = val
-    }
-  })
+  const newHeaders = _headers.map(({ key, val }) => ({
+    [key.toLowerCase()]: val
+  }))
   headers = Object.assign({}, defaultHeaders, newHeaders)
+  return fetch
+}
+
+fetch.clearHeaders = () => {
+  headers = {}
   return fetch
 }
 
