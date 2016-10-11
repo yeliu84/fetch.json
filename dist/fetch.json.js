@@ -79,10 +79,8 @@ fetch.headers = function (_headers) {
   if (!_headers) {
     return headers;
   }
-  var newHeaders = _headers.map(function (_ref2) {
-    var key = _ref2.key;
-    var val = _ref2.val;
-    return _defineProperty({}, key.toLowerCase(), val);
+  var newHeaders = Object.keys(_headers).map(function (key) {
+    return _defineProperty({}, key.toLowerCase(), _headers[key]);
   });
   headers = Object.assign({}, defaultHeaders, newHeaders);
   return fetch;
