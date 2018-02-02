@@ -6,11 +6,11 @@ const defaultHeaders = {
 }
 let headers = defaultHeaders
 
-function fetch (url, options = {
+const fetch = (url, options = {
   method: 'GET',
   headers: null,
   body: null
-}) {
+}) => {
   options.method = (options.method || 'GET').toUpperCase()
   if (options.method === 'GET' || options.method === 'HEAD') {
     delete options.body
@@ -77,5 +77,7 @@ fetch.clearHeaders = () => {
   headers = {}
   return fetch
 }
+
+fetch.version = '0.2.3'
 
 export default fetch
