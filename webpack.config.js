@@ -7,6 +7,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'fetch.json.js',
     library: 'fetchJson',
+    libraryExport: 'default',
     libraryTarget: 'umd'
   },
   module: {
