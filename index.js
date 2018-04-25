@@ -78,6 +78,6 @@ fetch.clearHeaders = () => {
   return fetch
 }
 
-fetch.version = '0.2.4'
+fetch.version = '0.2.5'
 
 export default fetch
