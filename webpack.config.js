@@ -10,6 +10,9 @@ const config = {
     libraryExport: 'default',
     libraryTarget: 'umd'
   },
+  externals: {
+    'isomorphic-fetch': 'isomorphic-fetch'
+  },
   module: {
     rules: [{
       test: /\.js$/,
