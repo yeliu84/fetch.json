@@ -2,6 +2,7 @@ import path from 'path'
 import webpack from 'webpack'
 
 const config = {
+  mode: 'production',
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -19,10 +20,7 @@ const config = {
       exclude: /node_modules/,
       use: 'babel-loader'
     }]
-  },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin()
-  ]
+  }
 }
 
 export default config
