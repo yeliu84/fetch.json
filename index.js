@@ -17,11 +17,13 @@ const fetch = (url, options = {
   } else if (options.body) {
     options.body = JSON.stringify(options.body)
   }
-  const _headers = Object.assign({}, headers, options.headers)
-  options.headers = {}
-  Object.keys(_headers).filter(key => _headers[key]).forEach(key => {
-    options.headers[key] = _headers[key]
-  })
+  options.headers = Object.assign({}, headers, Object.entries(options.headers || {})
+    .reduce((headers, [key, value]) => {
+      if (value) {
+        headers[key.toLowerCase()] = value
+      }
+      return headers
+    }, {}))
   return _fetch(url, options)
     .then(response => {
       return response.json()
@@ -65,11 +67,13 @@ fetch.headers = _headers => {
   if (!_headers) {
     return headers
   }
-  const newHeaders = {}
-  Object.keys(_headers).forEach(key => {
-    newHeaders[key.toLowerCase()] = _headers[key]
-  })
-  headers = Object.assign({}, defaultHeaders, newHeaders)
+  headers = Object.assign({}, defaultHeaders, Object.entries(_headers)
+    .reduce((headers, [key, value]) => {
+      if (value) {
+        headers[key.toLowerCase()] = value
+      }
+      return headers
+    }, {}))
   return fetch
 }
 
