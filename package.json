@@ -1,12 +1,12 @@
 {
   "name": "fetch.json",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Fetching JSON with ease",
   "author": "Ye Liu",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaux/fetch.json"
+    "url": "https://github.com/yeliu84/fetch.json"
   },
   "keywords": [
     "fetch",
